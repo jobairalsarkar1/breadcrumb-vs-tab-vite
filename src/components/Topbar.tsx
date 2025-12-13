@@ -18,12 +18,16 @@ export default function Topbar({
   onTabClick,
   onTabClose,
 }: TopbarProps) {
+  const handleCloseClick = (e: React.MouseEvent, path: string) => {
+    e.stopPropagation();
+    onTabClose(path);
+  };
+
   return (
     <div className="h-14 flex items-stretch overflow-x-auto bg-white shadow">
       {tabs.map((tab, idx) => {
         const isActive = activeTab === tab.path;
         const isOnlyTab = tabs.length === 1;
-        const isOverviewTab = tab.path === "/";
 
         // Check neighboring tabs
         const prevTab = tabs[idx - 1];
@@ -34,7 +38,6 @@ export default function Topbar({
         return (
           <div
             key={`${tab.path}-${idx}`}
-            onClick={() => onTabClick(tab.path)}
             className={`flex items-center justify-between px-4 cursor-pointer select-none border-r border-b w-[200px] shrink-0
               ${
                 isActive
@@ -44,15 +47,20 @@ export default function Topbar({
               ${roundedLeft} ${roundedRight}
             `}
           >
-            <span className="text-black mr-2 truncate">{tab.name}</span>
+            <span
+              className="text-black mr-2 truncate flex-1"
+              onClick={() => onTabClick(tab.path)}
+            >
+              {tab.name}
+            </span>
             {!isOnlyTab && (
-              <X
-                className="w-4 h-4 text-gray-500 hover:text-gray-800 hover:bg-gray-300 rounded"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onTabClose(tab.path);
-                }}
-              />
+              <button
+                className="w-5 h-5 flex items-center justify-center text-gray-500 hover:text-gray-800 hover:bg-gray-300 rounded"
+                onClick={(e) => handleCloseClick(e, tab.path)}
+                aria-label={`Close ${tab.name} tab`}
+              >
+                <X className="w-3 h-3" />
+              </button>
             )}
           </div>
         );

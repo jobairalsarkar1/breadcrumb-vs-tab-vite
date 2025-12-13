@@ -1,4 +1,4 @@
-import { type ReactNode, useState, useEffect } from "react";
+import { type ReactNode, useState, useEffect, useCallback } from "react";
 import { useLocation } from "wouter";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
@@ -54,6 +54,40 @@ export default function Layout({ children }: LayoutProps) {
   const [tabs, setTabs] = useState<Tab[]>(getInitialTabs);
   const [isInitialized, setIsInitialized] = useState(false);
 
+  // Initialize tabs based on URL on first render
+  useEffect(() => {
+    if (isInitialized) return;
+
+    const initializeTabs = () => {
+      const currentTab = menuItems.find((m) => m.path === location);
+      const initialTabs = getInitialTabs();
+
+      if (!currentTab) {
+        setIsInitialized(true);
+        return;
+      }
+
+      // Check if current tab already exists in initial tabs
+      const tabExists = initialTabs.some((tab) => tab.path === location);
+
+      if (!tabExists) {
+        // Add the current tab to initial tabs
+        const newTabs = [...initialTabs, currentTab];
+        const uniqueTabs = Array.from(
+          new Map(newTabs.map((tab) => [tab.path, tab])).values()
+        );
+        setTabs(uniqueTabs);
+      } else {
+        setTabs(initialTabs);
+      }
+
+      setIsInitialized(true);
+    };
+
+    // Use requestAnimationFrame to avoid synchronous setState in effect
+    requestAnimationFrame(initializeTabs);
+  }, []); // Empty dependency array - runs once on mount
+
   // Save tabs to localStorage whenever they change
   useEffect(() => {
     if (!isInitialized) return;
@@ -64,110 +98,97 @@ export default function Layout({ children }: LayoutProps) {
     }
   }, [tabs, isInitialized]);
 
-  // Initialize tabs based on current location
-  useEffect(() => {
-    if (isInitialized) return;
-
-    const currentTab = menuItems.find((m) => m.path === location);
-    if (!currentTab) {
-      setIsInitialized(true);
-      return;
-    }
-
-    // Check if current tab already exists
-    const tabExists = tabs.some((tab) => tab.path === location);
-
-    if (!tabExists) {
-      // Add the current tab
-      setTabs((prev) => {
-        const newTabs = [...prev, currentTab];
-        // Remove duplicates
-        const uniqueTabs = Array.from(
-          new Map(newTabs.map((tab) => [tab.path, tab])).values()
-        );
-        return uniqueTabs;
-      });
-    }
-
-    setIsInitialized(true);
-  }, [location, tabs, isInitialized]);
-
   // Handle adding tabs when location changes (after initialization)
   useEffect(() => {
     if (!isInitialized) return;
 
-    const currentTab = menuItems.find((m) => m.path === location);
-    if (!currentTab) return;
+    const handleLocationChange = () => {
+      const currentTab = menuItems.find((m) => m.path === location);
+      if (!currentTab) return;
 
-    // Check if current tab already exists
-    const tabExists = tabs.some((tab) => tab.path === location);
+      // Check if current tab already exists
+      const tabExists = tabs.some((tab) => tab.path === location);
 
-    if (!tabExists) {
+      if (!tabExists) {
+        setTabs((prev) => {
+          const newTabs = [...prev, currentTab];
+          // Remove duplicates
+          const uniqueTabs = Array.from(
+            new Map(newTabs.map((tab) => [tab.path, tab])).values()
+          );
+          return uniqueTabs;
+        });
+      }
+    };
+
+    requestAnimationFrame(handleLocationChange);
+  }, [location, isInitialized, tabs]);
+
+  const handleTabOpen = useCallback(
+    (path: string) => {
+      const tab = menuItems.find((m) => m.path === path);
+      if (!tab) return;
+
       setTabs((prev) => {
-        const newTabs = [...prev, currentTab];
-        // Remove duplicates
+        // Check if tab already exists
+        const tabExists = prev.some((t) => t.path === path);
+        if (tabExists) {
+          // If it exists, just navigate to it
+          setLocation(path);
+          return prev;
+        }
+
+        // Add new tab and remove duplicates
+        const newTabs = [...prev, tab];
         const uniqueTabs = Array.from(
-          new Map(newTabs.map((tab) => [tab.path, tab])).values()
+          new Map(newTabs.map((t) => [t.path, t])).values()
         );
         return uniqueTabs;
       });
-    }
-  }, [location, isInitialized, tabs]);
 
-  const handleTabOpen = (path: string) => {
-    const tab = menuItems.find((m) => m.path === path);
-    if (!tab) return;
+      setLocation(path);
+    },
+    [setLocation]
+  );
 
-    setTabs((prev) => {
-      // Check if tab already exists
-      const tabExists = prev.some((t) => t.path === path);
-      if (tabExists) {
-        // If it exists, just navigate to it
-        setLocation(path);
-        return prev;
-      }
+  const handleTabClick = useCallback(
+    (path: string) => {
+      setLocation(path);
+    },
+    [setLocation]
+  );
 
-      // Add new tab and remove duplicates
-      const newTabs = [...prev, tab];
-      const uniqueTabs = Array.from(
-        new Map(newTabs.map((t) => [t.path, t])).values()
-      );
-      return uniqueTabs;
-    });
+  const handleTabClose = useCallback(
+    (path: string) => {
+      // Don't close the last tab
+      if (tabs.length <= 1) return;
 
-    setLocation(path);
-  };
-
-  const handleTabClick = (path: string) => {
-    setLocation(path);
-  };
-
-  const handleTabClose = (path: string) => {
-    // Don't close the last tab
-    if (tabs.length <= 1) return;
-
-    setTabs((prev) => {
-      const newTabs = prev.filter((t) => t.path !== path);
+      setTabs((prev) => {
+        const newTabs = prev.filter((t) => t.path !== path);
+        return newTabs;
+      });
 
       // If we're closing the active tab, navigate to another tab
       if (location === path) {
-        const remainingTabs = newTabs.filter((t) => t.path !== path);
+        const remainingTabs = tabs.filter((t) => t.path !== path);
         if (remainingTabs.length > 0) {
-          // Navigate to the last tab
-          setTimeout(() => {
-            setLocation(remainingTabs[remainingTabs.length - 1].path);
-          }, 0);
+          // Navigate to the tab to the left, or if it's the first tab, navigate to the next one
+          const currentIndex = tabs.findIndex((t) => t.path === path);
+          let targetIndex = currentIndex - 1;
+          if (targetIndex < 0) targetIndex = 0;
+
+          const targetTab =
+            remainingTabs[targetIndex] ||
+            remainingTabs[remainingTabs.length - 1];
+          setLocation(targetTab.path);
         } else {
           // Should never happen because we prevent closing the last tab
-          setTimeout(() => {
-            setLocation("/");
-          }, 0);
+          setLocation("/");
         }
       }
-
-      return newTabs;
-    });
-  };
+    },
+    [tabs, location, setLocation]
+  );
 
   return (
     <div className="h-screen flex overflow-hidden">
