@@ -13,3 +13,18 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+/* Custom scrollbar for topbar */
+.thin-scrollbar::-webkit-scrollbar {
+  height: 6px;
+}
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
