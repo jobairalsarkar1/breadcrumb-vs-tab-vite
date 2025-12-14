@@ -138,7 +138,7 @@ export default function Layout({ children }: LayoutProps) {
     };
 
     requestAnimationFrame(initializeTabs);
-  }, []);
+  }, [isInitialized, location]);
 
   // Save tabs to localStorage whenever they change
   useEffect(() => {
