@@ -1,23 +1,99 @@
-export default function Products() {
-  const products = [
-    { id: 1, name: "Laptop", price: "$999", category: "Electronics" },
-    { id: 2, name: "Desk Chair", price: "$199", category: "Furniture" },
-    { id: 3, name: "Coffee Mug", price: "$15", category: "Home" },
-    { id: 4, name: "Notebook", price: "$12", category: "Stationery" },
-  ];
+import { useState, type FC } from "react";
+
+export interface TreeNodeData {
+  label: string;
+  children?: TreeNodeData[];
+}
+
+const data: TreeNodeData[] = [
+  {
+    label: "Electronics",
+    children: [
+      {
+        label: "TV",
+        children: [
+          { label: "Samsung" },
+          { label: "Apple" },
+          { label: "Vision" },
+          { label: "Walton" },
+          { label: "Panasonnic" },
+          { label: "LG" },
+        ],
+      },
+      {
+        label: "Fridge",
+        children: [{ label: "LG" }, { label: "Bosch" }],
+      },
+      { label: "Oven" },
+    ],
+  },
+  {
+    label: "Accessories",
+    children: [
+      {
+        label: "Necessaries",
+        children: [{ label: "Pen" }, { label: "Paper" }, { label: "Ledger" }],
+      },
+      {
+        label: "Utilities",
+        children: [{ label: "Purse" }, { label: "File" }],
+      },
+    ],
+  },
+];
+
+const TreeNodeList: FC<{ nodes: TreeNodeData[] }> = ({ nodes }) => {
+  return (
+    <ul
+      className="
+        relative 
+        ml-5
+        before:absolute before:top-0 before:bottom-3.5 
+        before:left-[-15px] before:w-px before:bg-black
+      "
+    >
+      {nodes.map((node, i) => (
+        <TreeNode key={i} node={node} />
+      ))}
+    </ul>
+  );
+};
+
+const TreeNode: FC<{ node: TreeNodeData }> = ({ node }) => {
+  const [open, setOpen] = useState(true);
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Products</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {products.map((product) => (
-          <div key={product.id} className="bg-white rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
-            <p className="text-gray-600 mb-2">Category: {product.category}</p>
-            <p className="text-2xl font-bold text-green-600">{product.price}</p>
-          </div>
-        ))}
+    <li
+      className="
+        relative pl-3
+        before:absolute before:top-3.5
+        before:left-[-15px] before:w-[25px] before:h-px 
+        before:bg-black
+      "
+    >
+      <div
+        className="cursor-pointer py-1 text-sm text-black flex items-center gap-1"
+        onClick={() => setOpen(!open)}
+      >
+        {node.children ? (
+          <span className="text-xs">{open ? "▼" : "▶"}</span>
+        ) : (
+          <span className="text-[10px]">•</span>
+        )}
+
+        {node.label}
       </div>
+
+      {node.children && open && <TreeNodeList nodes={node.children} />}
+    </li>
+  );
+};
+
+export default function Products() {
+  return (
+    <div className="w-[260px] h-full border-r border-gray-300 bg-transparent p-3 overflow-y-auto">
+      <h3 className="text-gray-800 mb-1">Categories</h3>
+      <TreeNodeList nodes={data} />
     </div>
   );
 }

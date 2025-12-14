@@ -269,7 +269,7 @@ export default function Layout({ children }: LayoutProps) {
           onTabClick={handleTabClick}
           onTabClose={handleTabClose}
         />
-        <main className="flex-1 bg-gray-200 p-6 overflow-auto">{children}</main>
+        <main className="flex-1 bg-gray-200 overflow-auto">{children}</main>
       </div>
     </div>
   );
