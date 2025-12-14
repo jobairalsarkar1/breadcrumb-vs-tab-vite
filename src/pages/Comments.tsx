@@ -864,7 +864,7 @@ export default function Comments() {
         </div>
 
         {/* Appointments Grid with Horizontal Scroll */}
-        <div className="flex-1 overflow-x-auto h-[calc(100vh - 104px)]">
+        <div className="ml-4 flex-1 overflow-x-auto h-[calc(100vh - 104px)]">
           {selectedDoctors.length === 0 ? (
             <div className="flex items-center justify-center h-full text-gray-500">
               <div className="text-center">
@@ -875,7 +875,7 @@ export default function Comments() {
               </div>
             </div>
           ) : (
-            <div className="pl-4 flex gap-3 min-w-max h-full">
+            <div className="flex gap-3 min-w-max h-full">
               {selectedDoctors.map((doctor) => (
                 <div
                   key={doctor.id}
