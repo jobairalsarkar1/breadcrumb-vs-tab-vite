@@ -619,16 +619,16 @@ export default function Comments() {
 
         <div className="w-full pb-3">
           {categories.map((category) => (
-            <div key={category.id} className="mb-2">
+            <div key={category.id} className="mb-1">
               {/* Main Category */}
               <div
                 className="flex items-center px-0.5 py-1 rounded cursor-pointer hover:bg-gray-300/50"
                 onClick={() => toggleCategory(category.id)}
               >
                 {category.expanded ? (
-                  <GoTriangleDown className="w-4 h-4 mr-2 text-gray-500" />
+                  <GoTriangleDown className="w-4 h-4 mr-1 text-gray-500" />
                 ) : (
-                  <GoTriangleRight className="w-4 h-4 mr-2 text-gray-500" />
+                  <GoTriangleRight className="w-4 h-4 mr-1 text-gray-500" />
                 )}
                 <span className="font-semibold text-sm">{category.name}</span>
               </div>
@@ -657,9 +657,9 @@ export default function Comments() {
                             }
                           >
                             {subCategory.expanded ? (
-                              <GoTriangleDown className="w-4 h-4 mr-2 text-gray-500" />
+                              <GoTriangleDown className="w-4 h-4 mr-1 text-gray-500" />
                             ) : (
-                              <GoTriangleRight className="w-4 h-4 mr-2 text-gray-500" />
+                              <GoTriangleRight className="w-4 h-4 mr-1 text-gray-500" />
                             )}
                             <span className="text-xs font-medium">
                               {subCategory.name}
@@ -738,9 +738,9 @@ export default function Comments() {
                                         }
                                       >
                                         {speciality.expanded ? (
-                                          <GoTriangleDown className="w-4 h-4 mr-2 text-gray-500" />
+                                          <GoTriangleDown className="w-4 h-4 mr-1 text-gray-500" />
                                         ) : (
-                                          <GoTriangleRight className="w-4 h-4 mr-2 text-gray-500" />
+                                          <GoTriangleRight className="w-4 h-4 mr-1 text-gray-500" />
                                         )}
                                         <span className="text-xs">
                                           {speciality.name}
