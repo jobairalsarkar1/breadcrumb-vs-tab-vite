@@ -369,8 +369,8 @@ export default function Layout({ children }: LayoutProps) {
         />
         <main className="flex-1 bg-gray-200 overflow-auto">
           {isCurrentEmptyTab ? (
-            <div className="h-full flex items-center justify-center bg-gray-100">
-              <div className="text-center p-8 bg-white rounded-lg shadow-md max-w-md">
+            <div className="h-full flex items-center justify-center bg-gray-200">
+              <div className="text-center p-8 bg-white rounded-lg shadow-md max-w-md border-dashed border-3 border-red-500">
                 <Plus size={48} className="mx-auto text-gray-400 mb-4" />
                 <h2 className="text-2xl font-semibold text-gray-700 mb-2">
                   New Tab

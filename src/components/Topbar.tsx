@@ -95,7 +95,7 @@ export default function Topbar({
       {/* PLUS BUTTON for new empty tab */}
       <button
         onClick={onNewTab}
-        className="px-3 border-r border-b border-gray-400 h-full flex items-center hover:bg-gray-100 text-black shrink-0"
+        className="px-3 h-full flex items-center hover:bg-gray-200/80 text-black shrink-0"
         aria-label="New Tab"
       >
         <Plus size={15} />
