@@ -41,8 +41,28 @@ function App() {
           <Comments />
         </Layout>
       </Route>
-      <Route>
-        <NotFound />
+      {/* Catch-all route for all other paths including empty tabs */}
+      <Route path="/:rest*">
+        {(params) => {
+          // In wouter, wildcard parameters have '*' in their name
+          const restPath = params["rest*"];
+
+          // Check if it's an empty tab path
+          if (restPath && restPath.startsWith("empty-")) {
+            // For empty tabs, render Layout which will show placeholder
+            return (
+              <Layout>
+                <div />
+              </Layout>
+            );
+          }
+          // For all other unknown paths, show NotFound
+          return (
+            <Layout>
+              <NotFound />
+            </Layout>
+          );
+        }}
       </Route>
     </Switch>
   );
