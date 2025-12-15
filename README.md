@@ -71,3 +71,41 @@ export default defineConfig([
   },
 ])
 ```
+
+
+
+<!-- ## Testing Github
+
+## Hi 👋 I'm Jobair Al Sarkar
+
+![Profile Views](https://komarev.com/ghpvc/?username=jobairalsarkar1&color=blue)
+
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=jobairalsarkar1&show_icons=true&theme=tokyonight)
+
+![Streak](https://streak-stats.demolab.com?user=jobairalsarkar1&theme=tokyonight)
+
+![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=jobairalsarkar1&layout=compact&theme=tokyonight)
+
+![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=jobairalsarkar1&theme=tokyo-night)
+
+![Trophies](https://github-profile-trophy.vercel.app/?username=jobairalsarkar1&theme=onedark)
+
+
+## Trophies
+
+![GitHub Trophies](https://github-profile-trophy.vercel.app/?username=jobairalsarkar1&no-frame=true&row=1&theme=darkhub)
+
+
+![Stats](https://github-readme-stats.vercel.app/api?username=jobairalsarkar1&show_icons=true&include_all_commits=true&count_private=true&theme=tokyonight)
+
+![Profile Summary](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=jobairalsarkar1&theme=tokyonight)
+
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=jobairalsarkar1&show_icons=true&include_all_commits=true&count_private=true&theme=tokyonight)
+
+![PRs](https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=jobairalsarkar1&theme=tokyonight)
+
+![Repos](https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=jobairalsarkar1&theme=tokyonight)
+
+![Stars](https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=jobairalsarkar1&theme=tokyonight)
+
+![GitHub Profile Summary](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=jobairalsarkar1&theme=tokyonight) -->

@@ -602,7 +602,7 @@ export default function Comments() {
   const renderVerticalLine = (isLastItem: boolean, extraClasses = "") => {
     return (
       <div
-        className={`absolute left-[-9px] top-0 w-px bg-[#4A5565] ${extraClasses} ${
+        className={`absolute -left-2.25 top-0 w-px bg-[#4A5565] ${extraClasses} ${
           isLastItem ? "h-4" : "h-full"
         }`}
       ></div>
@@ -645,7 +645,7 @@ export default function Comments() {
                       {renderVerticalLine(isLastSubCategory)}
 
                       {/* Horizontal line connecting to sub-category */}
-                      <div className="absolute left-[-9px] top-4 w-2.5 h-px bg-[#4A5565]"></div>
+                      <div className="absolute -left-2.25 top-4 w-2.5 h-px bg-[#4A5565]"></div>
 
                       {/* Sub-category header */}
                       <div className="flex items-center justify-between px-0 py-2 rounded hover:bg-gray-300/30">
@@ -697,7 +697,7 @@ export default function Comments() {
                         <div className="ml-4 relative">
                           {/* Vertical line for specialities list */}
                           <div
-                            className="absolute left-[-9px] top-0 w-px bg-[#4A5565] h-full"
+                            className="absolute -left-2.25 top-0 w-px bg-[#4A5565] h-full"
                             style={{ top: "-8px" }}
                           ></div>
 
@@ -714,12 +714,12 @@ export default function Comments() {
                                   className="relative py-0"
                                 >
                                   {/* Horizontal line to speciality */}
-                                  <div className="absolute left-[-9px] top-4 w-2.5 h-px bg-[#4A5565]"></div>
+                                  <div className="absolute -left-2.25 top-4 w-2.5 h-px bg-[#4A5565]"></div>
 
                                   {/* Vertical line continuation for non-last items */}
                                   {!isLastSpeciality && (
                                     <div
-                                      className="absolute left-[-9px] top-[34px] w-px bg-[#4A5565]"
+                                      className="absolute -left-2.25 top-8.5 w-px bg-[#4A5565]"
                                       style={{ height: "calc(100% - 34px)" }}
                                     ></div>
                                   )}
@@ -779,7 +779,7 @@ export default function Comments() {
                                     <div className="ml-4 relative">
                                       {/* Vertical line for doctors list */}
                                       <div
-                                        className="absolute left-[-9px] top-0 w-px bg-[#4A5565] h-full"
+                                        className="absolute -left-2.25 top-0 w-px bg-[#4A5565] h-full"
                                         style={{ top: "-8px" }}
                                       ></div>
 
@@ -796,12 +796,12 @@ export default function Comments() {
                                               className="relative flex items-center p-2 rounded hover:bg-gray-300/10"
                                             >
                                               {/* Horizontal line to doctor */}
-                                              <div className="absolute left-[-9px] top-1/2 w-3 h-px bg-[#4A5565]"></div>
+                                              <div className="absolute -left-2.25 top-1/2 w-3 h-px bg-[#4A5565]"></div>
 
                                               {/* Vertical line continuation for non-last items */}
                                               {!isLastDoctor && (
                                                 <div
-                                                  className="absolute left-[-9px] top-[34px] w-px bg-[#4A5565]"
+                                                  className="absolute -left-2.25 top-8.5 w-px bg-[#4A5565]"
                                                   style={{
                                                     height: "calc(100% - 34px)",
                                                   }}
